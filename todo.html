@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        h1 {
+            font-size: 5rem;
+            color: skyblue;
+            text-align: center;
+        }
+
+        h2 {
+            font-size : 3rem;
+        }
+
+        h2, h3, form, ul, li {
+            text-align: center;
+            color: white;
+            
+        }
+        
+    </style>
+</head>
+<body>
+    <h1 id="time"></h1>
+    <h2 id="user">Hello, Eunjeong</h2>
+    <h3>Todo List</h3>
+    <h2 id="time"></h2>
+
+    <form action="" id="form">
+        <label for="input">할 일을 입력하세요</label>
+        <br>
+        <input id="input" type="text">
+        <button id="input-button" type="submit">+</button>
+    </form>
+
+    <ul id="todo-list">
+        <li> +버튼이 눌리면 리스트에 추가되도록 구현하세요. </li>
+    </ul>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        axios.get('https://source.unsplash.com/1600x900/?nature,water')
+            .then(response => {
+                document.body.style.backgroundImage = `url(${response.request.responseURL})`
+                document.body.style.backgroundSize = 'cover'
+                // document.body.style.backgroundPosition = 'center'
+                document.body.style.backgroundRepeat = 'no-repeat'
+            })
+        const input = document.querySelector('#input')
+        const form = document.querySelector('#form')
+        // const 선언 : 블록 범위의 상수 선언 ( 재할당X, 선언X )
+        // const input = document.querySelector('#input')
+        // querySelector : 특정 name 이나 id 를 제한하지않고 css선택자를 사용하여 요소를 찾는다
+        // #input: id가 input인 요소를 찾는다.
+        // .section: 클래스가 section인 요소를 찾는다.
+        const button = document.querySelector('#input-button')
+        const todos = document.querySelector('#todo-list')
+        form.addEventListener('click', function(event){
+            event.preventDefault()
+            // preventDefault() : 현재 이벤트의 기본 동작을 중단
+            // const input = event.target.previousElementSibling
+            // addEventListener() : 지정한 이벤트가 대상에 전달될 때마다 호출함 함수를 지정
+            // li 하나를 만들어서
+            if (input.value){
+            const li = document.createElement('li')
+            // createElement() : 지정한 tagName의 HTML의 요소를 만들어 반환한다.
+            // 값을 넣고
+            // console.log() : 정보를 출력
+               // 이벤트가 발생한 대상
+            // console.log(this.previousElementSibling) context에 따라 달라진다
+            // todo-list에 붙인다.
+            console.log(this.previousElementSibling)
+            const deleteButton = document.createElement('button')
+            deleteButton.innerText = "삭제"
+            deleteButton.style.marginLeft = '10px'
+            li.innerText = input.value
+            li.appendChild(deleteButton)
+            todos.appendChild(li)
+            input.value = ''
+            deleteButton.addEventListener('click', function(event){
+                todos.removeChild(li)
+            })
+            }
+            else {
+                alert('내용을 입력하세요!')
+            }
+        })
+        function checkTime(i) {
+            if (i < 10) {
+            i = "0" + i;
+            }
+            return i;
+        }
+        function startTime() {
+            var today = new Date();
+            var h = today.getHours();
+            var m = today.getMinutes();
+            var s = today.getSeconds();
+            // add a zero in front of numbers<10
+            m = checkTime(m);
+            s = checkTime(s);
+            document.getElementById('time').innerHTML = h + ":" + m + ":" + s;
+            t = setTimeout(function() {
+            startTime()
+            }, 500);
+        }
+        startTime();       
+    </script>
+</body>
+</html>
+
+
